@@ -7,6 +7,7 @@ const repair = require('../controller/repair')
 const repairType = require('../controller/repairType')
 const user = require('../controller/user')
 const maintain = require('../controller/maintain')
+const {checkSession} = require('../utils/public')
 
 /**
  * 获取七牛的token
