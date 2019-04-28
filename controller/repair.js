@@ -17,7 +17,7 @@ router.post('/add', async (req, res, next) => {
     let count = await repairModel.find()
     count = count < 10 ? `00${count}` : (count < 100 ? `0${count}` : count)
     let repairNum = `BX${timeNum}${count}`
-    let repair = await repairModel.create({code: repairNum, user, type, images, remark, address})
+    let repair = await repairModel.create({code: repairNum, user, type, images, remark, address, status:1})
     res.json({
         code: 200,
         msg: '添加成功',
@@ -32,6 +32,7 @@ router.get('/get', async (req, res, next) => {
         let {id = '', status = ''} = req.query
         if (status !== '') status = paserInt(status)
         let repairList = []
+        await repairModel.update({user: id},{status: 1})
         if (id === '' && status == '') {
             repairList = await repairModel.find()
         } else if (status !== '' && id === '') {
