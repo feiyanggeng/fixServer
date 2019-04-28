@@ -39,7 +39,7 @@ router.get('/get', async (req, res, next) => {
                 })
                 .populate({
                     path: 'user'
-                })
+                }).sort({_id: -1})
         } else if (status !== '' && id === '') {
             repairList = await repairModel.find(status)
                 .populate({
@@ -47,7 +47,7 @@ router.get('/get', async (req, res, next) => {
                 })
                 .populate({
                     path: 'user'
-                })
+                }).sort({_id: -1})
         } else {
             repairList = await repairModel.find({user: id, status})
                 .populate({
@@ -55,7 +55,7 @@ router.get('/get', async (req, res, next) => {
                 })
                 .populate({
                     path: 'user'
-                })
+                }).sort({_id: -1})
         }
         res.json({
             code: 200,
