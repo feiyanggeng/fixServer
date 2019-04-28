@@ -32,13 +32,15 @@ router.get('/get', async (req, res, next) => {
         let {id = '', status = ''} = req.query
         if (status !== '') status = paserInt(status)
         let repairList = []
-        if (id === '' && status == '') {
-            repairList = await repairModel.find()
-        } else if (status !== '' && id === '') {
-            repairList = await repairModel.find(status)
-        } else {
-            repairList = await repairModel.find({user: id, status})
-        }
+        console.log(status)
+        // await repairModel.deleteOne({user: id})
+        // if (id === '' && status == '') {
+        //     repairList = await repairModel.find()
+        // } else if (status !== '' && id === '') {
+        //     repairList = await repairModel.find(status)
+        // } else {
+        //     repairList = await repairModel.find({user: id, status})
+        // }
         res.json({
             code: 200,
             msg: '维修单列表',
