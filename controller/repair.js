@@ -34,6 +34,12 @@ router.get('/get', async (req, res, next) => {
         let repairList = []
         if (id === '' && status == '') {
             repairList = await repairModel.find()
+                .populate({
+                    path: 'type'
+                })
+                .populate({
+                    path: 'user'
+                })
         } else if (status !== '' && id === '') {
             repairList = await repairModel.find(status)
         } else {
