@@ -30,10 +30,8 @@ router.post('/add', async (req, res, next) => {
 router.get('/get', async (req, res, next) => {
     try {
         let {id = '', status = ''} = req.query
-        console.log(id)
         if (status !== '') status = paserInt(status)
         let repairList = []
-        await repairModel.deleteOne({user: id})
         if (id === '' && status == '') {
             repairList = await repairModel.find()
         } else if (status !== '' && id === '') {
