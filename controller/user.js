@@ -38,6 +38,7 @@ router.post('/adminLogin', async (req, res, next) => {
             if (userInfo.level === 0) {
                 //管理员
                 if (password === userInfo.password) {
+                    req.session.userinfo = userInfo
                     res.json({
                         code: 200,
                         data: userInfo,
