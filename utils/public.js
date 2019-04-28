@@ -20,6 +20,15 @@ function checkSession(req, res, next) {
     }
 }
 
+function getTimeNum () {
+    let date = new Date()
+    let fullYear = date.getFullYear()
+    let month = date.getMonth()
+    let day = date.getDate()
+    return `${fullYear}${month + 1}${day}`
+}
+
 module.exports = {
-    checkSession
+    checkSession,
+    getTimeNum
 }
