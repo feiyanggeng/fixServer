@@ -66,5 +66,21 @@ router.get('/get', async (req, res, next) => {
         next(e)
     }
 })
+/**
+ * 获取报修单详情
+ */
+router.get('/getDetail', async (req, res, next) => {
+    try {
+        let {id} = req.query
+        let repair = repairModel.find({_id: id})
+        res.json({
+            code: 200,
+            msg: '报修单详情',
+            data: repair
+        })
+    } catch (e) {
+        next(e)
+    }
+})
 
 module.exports = router
