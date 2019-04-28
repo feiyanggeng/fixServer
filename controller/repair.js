@@ -32,7 +32,6 @@ router.get('/get', async (req, res, next) => {
         let {id = '', status = ''} = req.query
         if (status !== '') status = parseInt(status)
         let repairList = []
-        await repairModel.deleteOne({user: id})
         if (id === '' && status == '') {
             repairList = await repairModel.find()
         } else if (status !== '' && id === '') {
