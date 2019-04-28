@@ -32,7 +32,7 @@ router.get('/get', async (req, res, next) => {
         let {id = '', status = ''} = req.query
         if (status !== '') status = paserInt(status)
         let repairList = []
-        await repairModel.update({user: id},{status: 1})
+        await repairModel.updateOne({user: id},{status: 1})
         if (id === '' && status == '') {
             repairList = await repairModel.find()
         } else if (status !== '' && id === '') {
