@@ -6,7 +6,7 @@ const express = require('express')
 const router  = express.Router()
 
 const repairModel = require('../model/repair')
-let {getTimeNum} = require('/utils/public')
+let {getTimeNum} = require('../utils/public')
 
 /**
  * 添加报修单
