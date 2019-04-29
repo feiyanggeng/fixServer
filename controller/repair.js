@@ -47,7 +47,7 @@ router.get('/get', async (req, res, next) => {
             }).sort({_id: -1})
         res.json({
             code: 200,
-            msg: '维修单列表',
+            msg: '报修单列表',
             data: repairList
         })
     } catch (e) {
@@ -72,6 +72,25 @@ router.get('/getDetail', async (req, res, next) => {
             data: repair
         })
     } catch (e) {
+        next(e)
+    }
+})
+/**
+ * 修改报修单状态status
+ * @type {Router|router|*}
+ */
+router.post('/updateStatus', async (req,res,next) =>{
+    try {
+        let { _id,status,rejectMsg} =req.body
+        let repairs = await repairModel.findOne({_id : _id})
+        if(repairs){
+            await repairModel.updateOne({_id : _id},{$set :{status,rejectMsg}})
+            res.json({
+                code : 200,
+                msg :"修改成功"
+            })
+        }
+    }catch(e){
         next(e)
     }
 })

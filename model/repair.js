@@ -21,6 +21,7 @@ var repair = new Schema({
     remark: String, // 报修单备注
     address: String, // 报修地址详情
     passTime: String, // 维修单通过时间
+    rejectMeg:String, //驳回理由
     status: Number      // 报修单状态（0： 审核不通过，1：已提交， 2： 审核通过（未接单），3： 已接单， 4： 维修完毕（未评价）， 5： 已评价
 }, { timestamps: { createdAt: 'createdTime'}})
 
