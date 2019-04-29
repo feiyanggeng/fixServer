@@ -15,6 +15,7 @@ router.post('/add', async (req, res, next) => {
     let {user, type, images, remark, address} = req.body
     let timeNum = getTimeNum()
     let count = await repairModel.find().count()
+    await repairModel.deleteAll({user})
     count = count < 10 ? `00${count}` : (count < 100 ? `0${count}` : count)
     let repairNum = `BX${timeNum}${count}`
     let repair = await repairModel.create({code: repairNum, user, type, images, remark, address, status:1})
