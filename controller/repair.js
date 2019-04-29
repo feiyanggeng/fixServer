@@ -47,7 +47,7 @@ router.get('/get', async (req, res, next) => {
             }).sort({_id: -1})
         res.json({
             code: 200,
-            msg: '维修单列表',
+            msg: '报修单列表',
             data: repairList
         })
     } catch (e) {
