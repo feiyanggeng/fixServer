@@ -24,8 +24,9 @@ function getTimeNum () {
     let date = new Date()
     let fullYear = date.getFullYear()
     let month = date.getMonth()
+    month = month + 1 < 10 ? `0${month+1}` : month+1
     let day = date.getDate()
-    return `${fullYear}${month + 1}${day}`
+    return `${fullYear}${month}${day}`
 }
 
 module.exports = {
