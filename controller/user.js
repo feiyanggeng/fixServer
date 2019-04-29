@@ -70,7 +70,6 @@ router.post('/adminLogin', async (req, res, next) => {
 router.post('/addRepair' , async (req,res,next) =>{
     try{
         let {name,phone,address,sex} =req.body
-        await userModel.deleteOne({phone: '18438610510'})
         let userInfo = await userModel.findOne({phone})
         if(userInfo){
             res.json({
