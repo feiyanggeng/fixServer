@@ -75,5 +75,24 @@ router.get('/getDetail', async (req, res, next) => {
         next(e)
     }
 })
+/**
+ * 修改报修单状态status
+ * @type {Router|router|*}
+ */
+router.post('/updateStatus', async (req,res,next) =>{
+    try {
+        let { _id,status,rejectMsg} =req.body
+        let repairs = await repairModel.findOne({_id : _id})
+        if(repairs){
+            await repairModel.updateOne({_id : _id},{$set :{status,rejectMsg}})
+            res.json({
+                code : 200,
+                msg :"修改成功"
+            })
+        }
+    }catch(e){
+        next(e)
+    }
+})
 
 module.exports = router
