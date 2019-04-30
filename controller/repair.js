@@ -36,7 +36,6 @@ router.get('/get', async (req, res, next) => {
             status = parseInt(status)
             data.status = status
         }
-        console.log(data)
         if (time !== '') data.createdTime = time
         let  repairList = await repairModel.find(data)
             .populate({
@@ -44,7 +43,8 @@ router.get('/get', async (req, res, next) => {
             })
             .populate({
                 path: 'user'
-            }).sort({_id: -1})
+            })
+            .sort({_id: -1})
         res.json({
             code: 200,
             msg: '报修单列表',

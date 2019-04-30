@@ -41,5 +41,31 @@ router.post('/takeOrder', async (req, res, next) => {
 /**
  * 获取维修单
  */
+router.get('/get', async (req, res, next) => {
+    try {
+        let {id='', status='', time = ''} = req.query
+        let data = {}
+        if (id !== '') data.user = id
+        if (status !== '') {
+            status = parseInt(status)
+            data.status = status
+        }
+        if (time !== '') data.createdTime = time
+        let maintain = await maintainModel.find(data)
+            .populate({
+                path: 'repairsId'
+            })
+            .populate({
+                path: 'user'
+            }).sort({_id: -1})
+        res.json({
+            code: 200,
+            msg: '维修单列表',
+            data: maintain
+        })
+    } catch (e) {
+        next(e)
+    }
+})
 
 module.exports = router
