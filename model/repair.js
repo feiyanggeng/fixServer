@@ -33,7 +33,7 @@ var repair = new Schema({
         type: String,
         default: ''
     }, // 维修单通过时间
-    rejectMeg: {
+    rejectMsg: {
         type: String,
         default: ''
     }, //驳回理由
