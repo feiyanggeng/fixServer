@@ -109,46 +109,25 @@ router.post('/updateStatus', async (req,res,next) =>{
  */
 router.get('/search' ,async (req,res,next)=>{
     try{
-        let repairs
+        let repairs = []
         let {status}=req.query
         status = parseInt(status)
         if(status === -1){
             repairs = await repairModel.find()
-            if(repairs){
-                res.json({
-                    code:200,
-                    msg:"搜索成功",
-                    status:-1,
-                    data:repairs
-                })
-            }else{
-                res.json({
-                    code:203,
-                    msg:"搜索为空",
-                    status:status,
-                    data:[]
-                })
-
-            }
-
-
+            res.json({
+                code:200,
+                msg: repairs.length > 0? "搜索成功": "搜索为空",
+                status:-1,
+                data:repairs
+            })
         }else{
             repairs = await repairModel.findOne({status:status})
-            if(repairs){
-                res.json({
-                    code:200,
-                    msg:"搜索成功",
-                    status:status,
-                    data:repairs
-                })
-            }else{
-                res.json({
-                    code:203,
-                    msg:"搜索为空",
-                    status:status,
-                    data:[]
-                })
-            }
+            res.json({
+                code:200,
+                msg:repairs.length > 0? "搜索成功": "搜索为空",
+                status:status,
+                data:repairs
+            })
         }
     }catch(e){
         next(e)
