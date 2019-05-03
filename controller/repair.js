@@ -5,6 +5,7 @@
 const express = require('express')
 const router  = express.Router()
 
+const maintainModel = require('../model/maintain')
 const repairModel = require('../model/repair')
 let {getTimeNum} = require('../utils/public')
 
@@ -143,6 +144,25 @@ router.get('/search' ,async (req,res,next)=>{
         next(e)
     }
 })
-
+/**
+ * 根据维修单code获取维修单详情
+ */
+router.get('/maintainDetail', async (req, res, next) => {
+    let {code = ''} = req.query
+    let order = await maintainModel.findOne({maintainCode: code})
+        .populate({
+            path: 'repairsId',
+            populate: {
+                path: 'user type'
+            }
+        }).populate({
+            path: 'user'
+        })
+    res.json({
+        code: 200,
+        msg: '维修单详情',
+        data: order
+    })
+})
 
 module.exports = router
