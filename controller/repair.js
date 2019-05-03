@@ -149,7 +149,7 @@ router.get('/search' ,async (req,res,next)=>{
  */
 router.get('/maintainDetail', async (req, res, next) => {
     let {code = ''} = req.query
-    let order = await maintainModel.findOne({maintainCode: code})
+    let order = await maintainModel.findOne({code})
         .populate({
             path: 'repairsId',
             populate: {
