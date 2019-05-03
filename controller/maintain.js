@@ -102,6 +102,10 @@ router.post('/update', async (req, res, next) => {
         if (remark !== '') data.remark = remark
         if (rejectMsg !== '') data.rejectMsg = rejectMsg
         data.status = status
+        if(status === 3) {
+            let maintain = await maintainModel.findOne({_id})
+            await repairModel.updateOne({_id: maintain.repairsId},{$set: {status:4}})
+        }
         await maintainModel.updateOne({_id},{$set: data})
         res.json({
             code: 200,
