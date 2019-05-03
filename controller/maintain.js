@@ -55,7 +55,7 @@ router.get('/get', async (req, res, next) => {
             .populate({
                 path: 'repairsId',
                 populate: {
-                    path: 'user,type'
+                    path: 'user type'
                 }
             })
             .populate({
