@@ -60,7 +60,7 @@ router.get('/get', async (req, res, next) => {
             })
             .populate({
                 path: 'user'
-            }).sort({_id: -1})
+            }).sort({updatedAt: -1})
         res.json({
             code: 200,
             msg: '维修单列表',
