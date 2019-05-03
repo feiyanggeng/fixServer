@@ -18,7 +18,7 @@ router.post('/add', async (req, res, next) => {
     count = count < 10 ? `00${count}` : (count < 100 ? `0${count}` : count)
     let repairNum = `BX${timeNum}${count}`
     if (_id !== '') {
-        await repairModel.updateOne({_id},{$set: {images, remark, address}})
+        await repairModel.updateOne({_id},{$set: {images, remark, address, status: 1}})
         res.json({
             code: 200,
             msg: '修改成功',
