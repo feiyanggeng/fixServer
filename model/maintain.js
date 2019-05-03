@@ -32,7 +32,10 @@ var maintain = new Schema({
         type: String,
         default: ''
     }, // 维修单通过时间
-    status: Number,      // 维修单状态（1：已提交， 2： 审核通过，0： 审核不通过）
+    status: {
+        type: Number,
+        default: -1
+    },      // 维修单状态（1：已提交， 2： 审核通过，0： 审核不通过）
     comment:  {
         type: String,
         default: ''

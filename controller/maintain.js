@@ -70,5 +70,26 @@ router.get('/get', async (req, res, next) => {
         next(e)
     }
 })
+/**
+ * 获取维修单详情
+ */
+router.get('/getDetail', async (req, res, next) => {
+    let {id} = req.query
+    let maintain = await maintainModel.find({_id: id})
+        .populate({
+            path: 'repairsId',
+            populate: {
+                path: 'user type'
+            }
+        })
+        .populate({
+            path: 'user'
+        })
+    res.json({
+        code: 200,
+        msg: '维修单详情',
+        data: maintain
+    })
+})
 
 module.exports = router
