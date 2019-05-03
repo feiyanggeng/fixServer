@@ -109,8 +109,9 @@ router.post('/updateStatus', async (req,res,next) =>{
  */
 router.get('/search' ,async (req,res,next)=>{
     try{
-        let repairs=[]
+        let repairs
         let {status}=req.query
+        status = parseInt(status)
         if(status === -1){
             repairs = await repairModel.find()
             res.json({
