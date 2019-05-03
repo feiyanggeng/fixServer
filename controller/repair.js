@@ -12,17 +12,26 @@ let {getTimeNum} = require('../utils/public')
  * 添加报修单
  */
 router.post('/add', async (req, res, next) => {
-    let {user, type, images, remark, address} = req.body
+    let {_id='', user, type, images, remark, address} = req.body
     let timeNum = getTimeNum()
     let count = await repairModel.find().count()
     count = count < 10 ? `00${count}` : (count < 100 ? `0${count}` : count)
     let repairNum = `BX${timeNum}${count}`
-    let repair = await repairModel.create({code: repairNum, user, type, images, remark, address, status:1})
-    res.json({
-        code: 200,
-        msg: '添加成功',
-        data: repair
-    })
+    if (_id !== '') {
+        await repairModel.updateOne({_id},{$set: {images, remark, address}})
+        res.json({
+            code: 200,
+            msg: '修改成功',
+            data: ''
+        })
+    } else {
+        let repair = await repairModel.create({code: repairNum, user, type, images, remark, address, status:1})
+        res.json({
+            code: 200,
+            msg: '添加成功',
+            data: repair
+        })
+    }
 })
 /**
  * 获取报修单 (id: 用户id，status：报修单状态状态)
@@ -44,7 +53,7 @@ router.get('/get', async (req, res, next) => {
             .populate({
                 path: 'user'
             })
-            .sort({_id: -1})
+            .sort({updatedAt: -1})
         res.json({
             code: 200,
             msg: '报修单列表',
