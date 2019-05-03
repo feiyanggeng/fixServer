@@ -75,7 +75,7 @@ router.get('/get', async (req, res, next) => {
  */
 router.get('/getDetail', async (req, res, next) => {
     let {id} = req.query
-    let maintain = await maintainModel.find({_id: id})
+    let maintain = await maintainModel.findOne({_id: id})
         .populate({
             path: 'repairsId',
             populate: {
