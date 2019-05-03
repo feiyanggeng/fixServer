@@ -121,7 +121,7 @@ router.get('/search' ,async (req,res,next)=>{
                 data:repairs
             })
         }else{
-            repairs = await repairModel.findOne({status:status})
+            repairs = await repairModel.find({status:status})
             res.json({
                 code:200,
                 msg: "搜索成功",
