@@ -110,5 +110,22 @@ router.post('/update', async (req, res, next) => {
         next(e)
     }
 })
+/**
+ * 获取维修单列表
+ * @type {Router|router|*}
+ */
+router.get('/getAll',async(req,res,next)=>{
+    try {
+       let maintain = await maintainModel.find()
+        res.json({
+            code:200,
+            msg:'维修单列表',
+            data:maintain
+        })
+    }catch(e){
+        next(e)
+    }
+})
+
 
 module.exports = router
