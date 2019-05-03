@@ -24,17 +24,13 @@ var maintain = new Schema({
         type: String,
         default: ''
     }, // 维修单备注
-    address:  {
-        type: String,
-        default: ''
-    }, // 维修地址详情
     passTime: {
         type: String,
         default: ''
     }, // 维修单通过时间
     status: {
         type: Number,
-        default: -1
+        default: 1
     },      // 维修单状态（1：已提交， 2： 审核通过，0： 审核不通过）
     comment:  {
         type: String,

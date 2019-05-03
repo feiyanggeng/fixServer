@@ -27,7 +27,7 @@ router.post('/takeOrder', async (req, res, next) => {
             count = count < 10 ? `00${count}` : (count < 100 ? `0${count}` : count)
             let code = `WX${timeNum}${count}`
             await repairModel.update({_id: id},{status: 3, maintainCode: code})
-            let maintain = await maintainModel.create({code,user,repairsId: id})
+            let maintain = await maintainModel.create({code,user,repairsId: id, status: 1})
             res.json({
                 code: 200,
                 msg: '接单成功',
@@ -90,6 +90,25 @@ router.get('/getDetail', async (req, res, next) => {
         msg: '维修单详情',
         data: maintain
     })
+})
+/**
+ * 更新维修单信息
+ */
+router.post('/update', async (req, res, next) => {
+    try {
+        let {_id = '', images = '', remark = '', status = 2} = req.body
+        let data = {}
+        if (images !== '') data.images = images
+        if (remark !== '') data.remark = remark
+        data.status = status
+        await maintainModel.updateOne({_id},{$set: data})
+        res.json({
+            code: 200,
+            msg: '修改成功'
+        })
+    } catch (e) {
+        next(e)
+    }
 })
 
 module.exports = router
