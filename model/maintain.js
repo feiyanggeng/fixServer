@@ -31,7 +31,7 @@ var maintain = new Schema({
     status: {
         type: Number,
         default: 1
-    },      // 维修单状态（1：已提交， 2： 审核通过，0： 审核不通过）
+    },      // 维修单状态（1：未完成， 2： 未审核，0： 审核不通过， 3： 审核通过， 4：已评价）
     comment:  {
         type: String,
         default: ''
