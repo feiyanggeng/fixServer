@@ -117,6 +117,15 @@ router.post('/update', async (req, res, next) => {
 router.get('/getAll',async(req,res,next)=>{
     try {
        let maintain = await maintainModel.find()
+           .populate({
+               path: 'repairsId',
+               populate: {
+                   path: 'user type'
+               }
+           })
+           .populate({
+               path: 'user'
+           }).sort({updatedAt: -1})
         res.json({
             code:200,
             msg:'维修单列表',
