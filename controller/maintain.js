@@ -96,11 +96,16 @@ router.get('/getDetail', async (req, res, next) => {
  */
 router.post('/update', async (req, res, next) => {
     try {
-        let {_id = '', images = '', remark = '', status = 2} = req.body
+        let {_id = '', rejectMsg='', images = '', remark = '', status = 2} = req.body
         let data = {}
         if (images !== '') data.images = images
         if (remark !== '') data.remark = remark
+        if (rejectMsg !== '') data.rejectMsg = rejectMsg
         data.status = status
+        if(status === 3) {
+            let maintain = await maintainModel.findOne({_id})
+            await repairModel.updateOne({_id: maintain.repairsId},{$set: {status:4}})
+        }
         await maintainModel.updateOne({_id},{$set: data})
         res.json({
             code: 200,
