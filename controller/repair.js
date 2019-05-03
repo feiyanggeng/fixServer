@@ -114,6 +114,11 @@ router.get('/search' ,async (req,res,next)=>{
         status = parseInt(status)
         if(status === -1){
             repairs = await repairModel.find()
+                .populate({
+                    path: 'user'
+                }).populate({
+                    path: 'type'
+                })
             res.json({
                 code:200,
                 msg: "搜索成功",
@@ -122,6 +127,11 @@ router.get('/search' ,async (req,res,next)=>{
             })
         }else{
             repairs = await repairModel.find({status:status})
+                .populate({
+                    path: 'user'
+                }).populate({
+                    path: 'type'
+                })
             res.json({
                 code:200,
                 msg: "搜索成功",
