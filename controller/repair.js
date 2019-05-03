@@ -114,20 +114,41 @@ router.get('/search' ,async (req,res,next)=>{
         status = parseInt(status)
         if(status === -1){
             repairs = await repairModel.find()
-            res.json({
-                code:200,
-                msg:"搜索成功",
-                status:-1,
-                data:repairs
-            })
+            if(repairs){
+                res.json({
+                    code:200,
+                    msg:"搜索成功",
+                    status:-1,
+                    data:repairs
+                })
+            }else{
+                res.json({
+                    code:203,
+                    msg:"搜索为空",
+                    status:status,
+                    data:[]
+                })
+
+            }
+
+
         }else{
             repairs = await repairModel.findOne({status:status})
-            res.json({
-                code:200,
-                msg:"搜索成功",
-                status:status,
-                data:repairs
-            })
+            if(repairs){
+                res.json({
+                    code:200,
+                    msg:"搜索成功",
+                    status:status,
+                    data:repairs
+                })
+            }else{
+                res.json({
+                    code:203,
+                    msg:"搜索为空",
+                    status:status,
+                    data:[]
+                })
+            }
         }
     }catch(e){
         next(e)
