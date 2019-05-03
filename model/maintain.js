@@ -16,6 +16,10 @@ var maintain = new Schema({
         type: Schema.ObjectId,
         ref: 'user'
     },              // 维修员Id
+    type: {
+        type: ObjectId,
+        ref: 'repairType'
+    },
     images:  {
         type: String,
         default: ''
@@ -37,6 +41,10 @@ var maintain = new Schema({
         type: String,
         default: ''
     },     // 评价
+    rejectMsg: {
+        type: String,
+        default: ''
+    },      // 驳回意见
     level:  {
         type: Number,
         default: ''
