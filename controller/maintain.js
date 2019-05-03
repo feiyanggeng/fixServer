@@ -14,7 +14,7 @@ let {getTimeNum} = require('../utils/public')
  */
 router.post('/takeOrder', async (req, res, next) => {
     try {
-        let {user, id} = req.body
+        let {user, id, type} = req.body
         let repair = await repairModel.findOne({_id: id})
         if (repair.status === 3) {
             res.json({
@@ -27,7 +27,7 @@ router.post('/takeOrder', async (req, res, next) => {
             count = count < 10 ? `00${count}` : (count < 100 ? `0${count}` : count)
             let code = `WX${timeNum}${count}`
             await repairModel.update({_id: id},{status: 3, maintainCode: code})
-            let maintain = await maintainModel.create({code,user,repairsId: id})
+            let maintain = await maintainModel.create({code,user,repairsId: id, type})
             res.json({
                 code: 200,
                 msg: '接单成功',

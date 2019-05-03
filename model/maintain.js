@@ -17,7 +17,7 @@ var maintain = new Schema({
         ref: 'user'
     },              // 维修员Id
     type: {
-        type: ObjectId,
+        type: Schema.ObjectId,
         ref: 'repairType'
     },
     images:  {
