@@ -103,5 +103,35 @@ router.post('/updateStatus', async (req,res,next) =>{
         next(e)
     }
 })
+/**
+ * 报修单搜索（全部：-1，未通过：0，待审核：1，已通过：2）
+ * @type {Router|router|*}
+ */
+router.get('/search' ,async (req,res,next)=>{
+    try{
+        let repairs=[]
+        let {status}=req.query
+        if(status === -1){
+            repairs = await repairModel.find()
+            res.json({
+                code:200,
+                msg:"搜索成功",
+                status:-1,
+                data:repairs
+            })
+        }else{
+            repairs = await repairModel.findOne({status:status})
+            res.json({
+                code:200,
+                msg:"搜索成功",
+                status:status,
+                data:repairs
+            })
+        }
+    }catch(e){
+        next(e)
+    }
+})
+
 
 module.exports = router
