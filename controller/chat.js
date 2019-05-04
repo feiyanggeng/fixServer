@@ -21,12 +21,28 @@ router.get('/getType',async(req,res,next) =>{
                     count: {$sum: 1}
                 }}])
             let types = await repairTypeModel.find()
+            let seriesData = []
+            types.forEach(item => {
+                let _index = -1
+                typesCount.forEach((count, index) => {
+                    if (item._id === count._id) {
+                        _index = index
+                    }
+                })
+                seriesData.push({
+                    name: item.name,
+                    value: _index === -1 ? 0 : typesCount[_index].count
+                })
+            })
+            let legendData = types.map(item => {
+                return item.name
+            })
             res.json({
                 code: 200,
                 msg: '报表数据',
                 data: {
-                    typesCount,
-                    types
+                    seriesData,
+                    legendData
                 }
             })
         }
