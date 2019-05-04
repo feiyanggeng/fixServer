@@ -15,10 +15,11 @@ router.get('/getType',async(req,res,next) =>{
         let {month = 0} =req.query
         let time = new Date(month)
         let Year =time.getFullYear()
-        let Month = time.getMonth()+1
+        let Month = time.getMonth()
         let Next = Month+1
-        let timeCon =Year + '-' + Month + '-' + '1' + ' 00:00:00'
-        let nextTime =Year + '-' + Next + '-' + '1' + ' 00:00:00'
+        let timeCon =Year + '-' + Month + '-' + '01' + ' 00:00:00'
+        let nextTime =Year + '-' + Next + '-' + '01' + ' 00:00:00'
+        console.log(timeCon)
         let typesCount = []
         if (month == 0) {
              typesCount = await repairModel.aggregate([
