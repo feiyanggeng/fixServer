@@ -40,9 +40,13 @@ var maintain = new Schema({
         type: String,
         default: ''
     },      // 驳回意见
+    serverLevel: {
+        type: Number,
+        default: 0
+    }, // 服务等级
     level:  {
         type: Number,
-        default: ''
+        default: 0
     }           //评价的星级（0,1,2,3,4,5）
 }, { timestamps: { createdAt: 'createdTime'}})
 

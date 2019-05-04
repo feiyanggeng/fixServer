@@ -119,7 +119,7 @@ router.post('/update', async (req, res, next) => {
  * 获取维修单列表
  * @type {Router|router|*}
  */
-router.get('/getAll',async(req,res,next)=>{
+router.get('/getAll',async (req,res,next)=>{
     try {
        let maintain = await maintainModel.find()
            .populate({
@@ -140,6 +140,21 @@ router.get('/getAll',async(req,res,next)=>{
         next(e)
     }
 })
-
+/**
+ * 评价
+ */
+router.post('/evaluate', async (req, res, next) => {
+    try {
+        let {repairId, id, serverLevel, level, comment} = req.body
+        await repairModel.updateOne({_id: repairId},{$set: {status: 5}})
+        await maintainModel.updateOne({_id: id},{$set: {serverLevel, level, comment}})
+        res.json({
+            code: 200,
+            msg: '评价完成'
+        })
+    } catch (e) {
+        next(e)
+    }
+})
 
 module.exports = router
