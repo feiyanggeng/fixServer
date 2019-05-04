@@ -12,14 +12,19 @@ const repairTypeModel = require('../model/repairType')
  */
 router.get('/getType',async(req,res,next) =>{
     try{
-        let {month = 0} =req.query
-        month=parseInt(month)
-        if(month == 0){
-            //全部
-            let typesCount = await repairModel.aggregate([{$group: {
+        let {month} =req.query
+        let time = new Date(month)
+        let Year =time.getFullYear()
+        let Month = time.getMonth()+1
+        let Next = Month+1
+        let timeCon =Year + '-' + Month + '-' + '1' + ' 00:00:00'
+        let nextTime =Year + '-' + Next + '-' + '1' + ' 00:00:00'
+
+        let typesCount = await repairModel.aggregate([{$group: {
                     _id: "$type",
                     count: {$sum: 1}
-                }}])
+                }},
+        {$match: {createdTime: { $gte : timeCon, $lt : nextTime }}}])
             let types = await repairTypeModel.find()
             let seriesData = []
             types.forEach(item => {
@@ -41,11 +46,13 @@ router.get('/getType',async(req,res,next) =>{
                 code: 200,
                 msg: '报表数据',
                 data: {
+                    typesCount,
+                    types,
                     seriesData,
                     legendData
                 }
             })
-        }
+
     }catch(e){
         next(e)
     }
