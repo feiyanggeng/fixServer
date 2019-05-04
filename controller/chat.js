@@ -25,7 +25,7 @@ router.get('/getType',async(req,res,next) =>{
             types.forEach(item => {
                 let _index = -1
                 typesCount.forEach((count, index) => {
-                    if (item._id === count._id) {
+                    if (item._id == count._id) {
                         _index = index
                     }
                 })
