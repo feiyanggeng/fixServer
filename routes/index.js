@@ -7,6 +7,7 @@ const repair = require('../controller/repair')
 const repairType = require('../controller/repairType')
 const user = require('../controller/user')
 const maintain = require('../controller/maintain')
+const chat = require('../controller/chat')
 const {checkSession} = require('../utils/public')
 
 /**
@@ -24,6 +25,7 @@ router.use('/dd',ddAuth)        //调用dd方法接口
 router.use('/repair',repair)    // 调用报修单接口
 router.use('/repairType',repairType)    // 调用报修类型接口
 router.use('/maintain',maintain)        // 调用维修单接口
+router.use('/chat',chat)        // 调用维修单接口
 router.use('/user',user)                // 调用用户接口
 
 module.exports = router;
