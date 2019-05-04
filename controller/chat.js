@@ -21,6 +21,7 @@ router.get('/getType',async(req,res,next) =>{
         let timeCon = new Date(`${Year}-${Month}-01 00:00:00`)
         let nextTime = new Date(`${Year}-${Next}-01 00:00:00`)
         console.log(timeCon)
+        console.log(nextTime)
         let typesCount = []
         if (month == 0) {
              typesCount = await repairModel.aggregate([
