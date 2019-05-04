@@ -16,7 +16,7 @@ router.get('/getType',async(req,res,next) =>{
         month = parseInt(month)
         let time = new Date(month)
         let Year = time.getFullYear()
-        let Month = time.getMonth()+1
+        let Month = time.getMonth()
         let Next = Month+1
         let timeCon = new Date(Year, Month, 1)
         let nextTime = new Date(Year, Next, 1)
@@ -30,7 +30,7 @@ router.get('/getType',async(req,res,next) =>{
             console.log('month不等于0')
             typesCount = await repairModel.aggregate([
                 {$group: {_id: "$type",count: {$sum: 1}}},
-                {$match: {createdTime: { $gte: timeCon, $lt: nextTime }}}])
+                {$match: {createdTime: { $gt: timeCon, $lte: nextTime }}}])
         }
         let types = await repairTypeModel.find()
         let seriesData = []
