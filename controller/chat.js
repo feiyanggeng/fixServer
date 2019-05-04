@@ -21,6 +21,7 @@ router.get('/getType',async(req,res,next) =>{
         let nextTime =Year + '-' + Next + '-' + '1' + ' 00:00:00'
         let typesCount = []
         if (month = 0) {
+            console.log(month)
              typesCount = await repairModel.aggregate([
                 {$group: {_id: "$type",count: {$sum: 1}}}])
         } else {
