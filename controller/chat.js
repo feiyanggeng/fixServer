@@ -41,6 +41,8 @@ router.get('/getType',async(req,res,next) =>{
                 code: 200,
                 msg: '报表数据',
                 data: {
+                    typesCount,
+                    types,
                     seriesData,
                     legendData
                 }
