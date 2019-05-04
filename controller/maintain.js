@@ -145,7 +145,7 @@ router.get('/getAll',async (req,res,next)=>{
  */
 router.post('/evaluate', async (req, res, next) => {
     try {
-        let {repairId, id, serverLevel, level, comment} = req.body
+        let {repairId, id, serverLevel, level, comment = ''} = req.body
         await repairModel.updateOne({_id: repairId},{$set: {status: 5}})
         await maintainModel.updateOne({_id: id},{$set: {serverLevel, level, comment}})
         res.json({
