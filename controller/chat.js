@@ -20,12 +20,10 @@ router.get('/getType',async(req,res,next) =>{
         let timeCon =Year + '-' + Month + '-' + '1' + ' 00:00:00'
         let nextTime =Year + '-' + Next + '-' + '1' + ' 00:00:00'
         let typesCount = []
-        if (month === 0) {
-            console.log('month是0', month)
+        if (month == 0) {
              typesCount = await repairModel.aggregate([
                 {$group: {_id: "$type",count: {$sum: 1}}}])
         } else {
-            console.log('month不是0', month)
             typesCount = await repairModel.aggregate([
                 {$group: {_id: "$type",count: {$sum: 1}}},
                 {$match: {createdTime: { $gte : timeCon, $lt : nextTime }}}])
