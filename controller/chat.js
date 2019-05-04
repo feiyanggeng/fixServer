@@ -29,8 +29,8 @@ router.get('/getType',async(req,res,next) =>{
         } else {
             console.log('month不等于0')
             typesCount = await repairModel.aggregate([
-                {$group: {_id: "$type",count: {$sum: 1}}},
-                {$match: {createdTime: { $gt: timeCon, $lte: nextTime }}}])
+                {$match: {createdTime: {$gt: timeCon, $lte: nextTime }}},
+                {$group: {_id: "$type",count: {$sum: 1}}}])
         }
         let types = await repairTypeModel.find()
         let seriesData = []
