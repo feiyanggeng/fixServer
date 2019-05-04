@@ -12,12 +12,12 @@ const repairTypeModel = require('../model/repairType')
  */
 router.get('/getType',async(req,res,next) =>{
     try{
-        let {month} =req.query
+        let {month = 0} =req.query
         month=parseInt(month)
         if(month == 0){
             //全部
             let typesCount = await repairModel.aggregate([{$group: {
-                    _id: "type",
+                    _id: "$type",
                     count: {$sum: 1}
                 }}])
             let types = await repairTypeModel.find()
