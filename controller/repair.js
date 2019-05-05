@@ -40,14 +40,13 @@ router.post('/add', async (req, res, next) => {
 router.get('/get', async (req, res, next) => {
     try {
         let {id = '', status = '', month = ''} = req.query
-        month = parseInt(month)
         let data = {}
         if (id !== '') data.user = id
         if (status !== '') {
             status = parseInt(status)
             data.status = status
         }
-        if (month !== 0) {
+        if (month !== '') {
                 let date = getStartEnd(month)
                 data.createdTime = {$gt: data.start, $lte: date.end}
         }
