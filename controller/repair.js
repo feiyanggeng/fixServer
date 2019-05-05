@@ -40,26 +40,16 @@ router.post('/add', async (req, res, next) => {
 router.get('/get', async (req, res, next) => {
     try {
         let {id = '', status = '', month = ''} = req.query
+        month = parseInt(month)
         let data = {}
         if (id !== '') data.user = id
         if (status !== '') {
-            if(status == -1){
-                return
-            }else{
-                status = parseInt(status)
-                data.status = status
-            }
-
+            status = parseInt(status)
+            data.status = status
         }
-        if (month !== '') {
-            if(month == 0){
-                return
-            }else{
+        if (month !== 0) {
                 let date = getStartEnd(month)
                 data.createdTime = {$gt: data.start, $lte: date.end}
-            }
-
-
         }
         let  repairList = await repairModel.find(data)
             .populate({
