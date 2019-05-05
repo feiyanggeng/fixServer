@@ -7,7 +7,7 @@ const router  = express.Router()
 
 const maintainModel = require('../model/maintain')
 const repairModel = require('../model/repair')
-let {getTimeNum} = require('../utils/public')
+let {getTimeNum, getStartEnd} = require('../utils/public')
 
 /**
  * 添加报修单
@@ -39,14 +39,17 @@ router.post('/add', async (req, res, next) => {
  */
 router.get('/get', async (req, res, next) => {
     try {
-        let {id = '', status = '', time = ''} = req.query
+        let {id = '', status = '', month = ''} = req.query
         let data = {}
         if (id !== '') data.user = id
         if (status !== '') {
             status = parseInt(status)
             data.status = status
         }
-        if (time !== '') data.createdTime = time
+        if (month !== '') {
+            let date = getStartEnd(month)
+            data.createdTime = {$gt: data.start, $lte: date.end}
+        }
         let  repairList = await repairModel.find(data)
             .populate({
                 path: 'type'

@@ -6,6 +6,7 @@ const router  = express.Router()
 
 const repairModel = require('../model/repair')
 const repairTypeModel = require('../model/repairType')
+let {getStartEnd} = require('../utils/public')
 /**
  * 维修类型统计  按月 饼状图
  * @type {Router|router|*}
@@ -13,23 +14,14 @@ const repairTypeModel = require('../model/repairType')
 router.get('/getType',async(req,res,next) =>{
     try{
         let {month = 0} =req.query
-        month = parseInt(month)
-        let time = new Date(month)
-        let Year = time.getFullYear()
-        let Month = time.getMonth()
-        let Next = Month+1
-        let timeCon = new Date(Year, Month, 1)
-        let nextTime = new Date(Year, Next, 1)
-        console.log(timeCon)
-        console.log(nextTime)
+        let date = getStartEnd(month)
         let typesCount = []
         if (month == 0) {
              typesCount = await repairModel.aggregate([
                 {$group: {_id: "$type",count: {$sum: 1}}}])
         } else {
-            console.log('month不等于0')
             typesCount = await repairModel.aggregate([
-                {$match: {createdTime: {$gt: timeCon, $lte: nextTime }}},
+                {$match: {createdTime: {$gt: date.start, $lte: date.end }}},
                 {$group: {_id: "$type",count: {$sum: 1}}}])
         }
         let types = await repairTypeModel.find()
