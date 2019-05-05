@@ -48,9 +48,9 @@ router.get('/get', async (req, res, next) => {
         }
         if (month !== '') {
             let date = getStartEnd(month)
-            console.log(date)
-            data.createdTime = {$gt: data.start, $lte: date.end}
+            data.createdTime = {$gt: date.start, $lte: date.end}
         }
+        console.log(data)
         let  repairList = await repairModel.find(data)
             .populate({
                 path: 'type'
