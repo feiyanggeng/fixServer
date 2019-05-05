@@ -43,11 +43,16 @@ router.get('/get', async (req, res, next) => {
         let data = {}
         if (id !== '') data.user = id
         if (status !== '') {
-            status = parseInt(status)
-            data.status = status
+            if(status == -1){
+                return
+            }else{
+                status = parseInt(status)
+                data.status = status
+            }
+
         }
         if (month !== '') {
-            if(month == -1){
+            if(month == 0){
                 return
             }else{
                 let date = getStartEnd(month)
