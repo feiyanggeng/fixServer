@@ -13,14 +13,19 @@ const templateid ="462575"
 
 router.get('/forget', (req, res) => {
     let {mobile} = req.query
+    let param = ''
+    for (let i = 0; i < 6; i++) {
+        param += ''+parseInt(Math.random()*10 - 1)
+    }
+    console.log(param)
     let postData={
         sid,
         token,
         appid,
         templateid,
+        param,
         mobile
     }
-    console.log(mobile)
     axios.post('https://open.ucpaas.com/ol/sms/sendsms', postData).then(response => {
         if (response.data.code === '000000') {
             res.json({
