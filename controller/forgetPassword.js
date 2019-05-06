@@ -15,7 +15,7 @@ router.get('/forget', (req, res) => {
     let {mobile} = req.query
     let param = ''
     for (let i = 0; i < 6; i++) {
-        param += ''+parseInt(Math.random()*10 - 1)
+        param += ''+parseInt(Math.random()*10)
     }
     console.log(param)
     let postData={
