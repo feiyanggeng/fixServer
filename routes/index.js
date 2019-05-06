@@ -2,8 +2,9 @@ const express = require('express')
 const router = express.Router()
 
 const token = require('../utils/getToken')
-const ddAuth = require('../controller/ddAuth')
 const repair = require('../controller/repair')
+const ddAuth = require('../controller/ddAuth')
+const message = require('../controller/forgetPassword')
 const repairType = require('../controller/repairType')
 const user = require('../controller/user')
 const maintain = require('../controller/maintain')
@@ -22,6 +23,7 @@ router.get('/getToken', (req, res) => {
 })
 
 router.use('/dd',ddAuth)        //调用dd方法接口
+router.use('/message',message)        //获取短信验证码接口
 router.use('/repair',repair)    // 调用报修单接口
 router.use('/repairType',repairType)    // 调用报修类型接口
 router.use('/maintain',maintain)        // 调用维修单接口
