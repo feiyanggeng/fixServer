@@ -34,6 +34,10 @@ router.get('/forget', (req, res) => {
     const request = https.request(options, (data) => {
         data.on('data', (chunk) => {
             let response =JSON.parse(chunk.toString())
+            res.json({
+                code: 200,
+                data: response
+            })
         });
     });
 
