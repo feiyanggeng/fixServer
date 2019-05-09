@@ -7,7 +7,7 @@ const router  = express.Router()
 
 const maintainModel = require('../model/maintain')
 const repairModel = require('../model/repair')
-let {getTimeNum} = require('../utils/public')
+let {getTimeNum, getStartEnd} = require('../utils/public')
 
 /**
  * 添加报修单
@@ -39,14 +39,18 @@ router.post('/add', async (req, res, next) => {
  */
 router.get('/get', async (req, res, next) => {
     try {
-        let {id = '', status = '', time = ''} = req.query
+        let {id = '', status = '', month = ''} = req.query
         let data = {}
         if (id !== '') data.user = id
         if (status !== '') {
             status = parseInt(status)
             data.status = status
         }
-        if (time !== '') data.createdTime = time
+        if (month !== '') {
+            let date = getStartEnd(month)
+            data.createdTime = {$gt: date.start, $lte: date.end}
+        }
+        console.log(data)
         let  repairList = await repairModel.find(data)
             .populate({
                 path: 'type'
@@ -104,46 +108,7 @@ router.post('/updateStatus', async (req,res,next) =>{
         next(e)
     }
 })
-/**
- * 报修单搜索（全部：-1，未通过：0，待审核：1，已通过：2）
- * @type {Router|router|*}
- */
-router.get('/search' ,async (req,res,next)=>{
-    try{
-        let repairs = []
-        let {status}=req.query
-        status = parseInt(status)
-        if(status === -1){
-            repairs = await repairModel.find()
-                .populate({
-                    path: 'user'
-                }).populate({
-                    path: 'type'
-                })
-            res.json({
-                code:200,
-                msg: "搜索成功",
-                status:-1,
-                data:repairs
-            })
-        }else{
-            repairs = await repairModel.find({status:status})
-                .populate({
-                    path: 'user'
-                }).populate({
-                    path: 'type'
-                })
-            res.json({
-                code:200,
-                msg: "搜索成功",
-                status:status,
-                data:repairs
-            })
-        }
-    }catch(e){
-        next(e)
-    }
-})
+
 /**
  * 根据维修单code获取维修单详情
  */

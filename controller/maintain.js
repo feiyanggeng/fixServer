@@ -7,7 +7,7 @@ const router  = express.Router()
 
 const maintainModel = require('../model/maintain')
 const repairModel = require('../model/repair')
-let {getTimeNum} = require('../utils/public')
+let {getTimeNum,getStartEnd} = require('../utils/public')
 
 /**
  * 接单
@@ -43,14 +43,18 @@ router.post('/takeOrder', async (req, res, next) => {
  */
 router.get('/get', async (req, res, next) => {
     try {
-        let {id='', status='', time = ''} = req.query
+        let {id='', status='', month = ''} = req.query
         let data = {}
         if (id !== '') data.user = id
         if (status !== '') {
             status = parseInt(status)
             data.status = status
         }
-        if (time !== '') data.createdTime = time
+        if (month !== '') {
+            let date = getStartEnd(month)
+            data.createdTime = {$gt: date.start, $lte: date.end}
+        }
+        console.log(data);
         let maintain = await maintainModel.find(data)
             .populate({
                 path: 'repairsId',
@@ -115,31 +119,7 @@ router.post('/update', async (req, res, next) => {
         next(e)
     }
 })
-/**
- * 获取维修单列表
- * @type {Router|router|*}
- */
-router.get('/getAll',async (req,res,next)=>{
-    try {
-       let maintain = await maintainModel.find()
-           .populate({
-               path: 'repairsId',
-               populate: {
-                   path: 'user type'
-               }
-           })
-           .populate({
-               path: 'user'
-           }).sort({updatedAt: -1})
-        res.json({
-            code:200,
-            msg:'维修单列表',
-            data:maintain
-        })
-    }catch(e){
-        next(e)
-    }
-})
+
 /**
  * 评价
  */
