@@ -78,6 +78,16 @@ router.post('/adminLogin', async (req, res, next) => {
     }
 })
 /**
+ * 退出登录
+ */
+router.get('/Logout', (req, res) => {
+    req.session = {}
+    res.json({
+        code: 200,
+        msg: '退出成功'
+    })
+})
+/**
  * 添加维修人员
  * @type {Router|router|*}
  */
