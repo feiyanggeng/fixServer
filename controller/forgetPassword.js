@@ -31,8 +31,8 @@ router.get('/getCode', (req, res) => {
     }
     axios.post('https://open.ucpaas.com/ol/sms/sendsms', postData).then(response => {
         if (response.data.code === '000000') {
-            req.code = param
-            req.phone=mobile
+            req.session.code = param
+            req.session.phone=mobile
             res.json({
                 message: '发送成功',
                 code: response.data
@@ -76,7 +76,7 @@ router.post('/checkPhone', async (req,res,next)=>{
 router.post('/conform', (req, res) => {
     try {
         let {phone,password}=req.body
-        if(phone == req.phone && password == req.code){
+        if(phone == req.session.phone && password == req.session.code){
             res.json({
                 code:200,
                 msg:"验证通过"
