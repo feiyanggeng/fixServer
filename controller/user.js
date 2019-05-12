@@ -81,7 +81,7 @@ router.post('/adminLogin', async (req, res, next) => {
  * 退出登录
  */
 router.get('/Logout', (req, res) => {
-    req.session = {}
+    req.session.userinfo = null
     res.json({
         code: 200,
         msg: '退出成功'
