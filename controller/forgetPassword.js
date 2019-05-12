@@ -5,6 +5,7 @@
 const express = require('express')
 const router = express.Router()
 const axios = require('axios')
+const userModel = require('../model/user')
 
 const sid = "ab6ec8db929dd73c97948eb9b1405fa7"
 const token = "d71da22ef74b69708bda0ce4ace0e017"
@@ -44,6 +45,30 @@ router.get('/getCode', (req, res) => {
     })
 
 })
+/**
+ * 判断手机号是否为普通管理员
+ */
+router.post('/checkPhone', async (req,res,next)=>{
+    try{
+        let {phone}=req.body
+       let userInfo = await userModel.findOne({phone,level:0})
+        if(userInfo){
+            res.json({
+                code:200,
+                msg:"存在该用户"
+            })
+        }else{
+            res.json({
+                code:203,
+                msg:"不存在该用户"
+            })
+        }
+
+    }catch(e){
+        next(e)
+    }
+})
+
 /**
  * 验证验证码
  */
