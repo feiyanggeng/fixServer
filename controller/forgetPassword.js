@@ -32,6 +32,7 @@ router.get('/getCode', (req, res) => {
     axios.post('https://open.ucpaas.com/ol/sms/sendsms', postData).then(response => {
         if (response.data.code === '000000') {
             req.code = param
+            req.phone=mobile
             res.json({
                 message: '发送成功',
                 code: response.data
@@ -46,7 +47,7 @@ router.get('/getCode', (req, res) => {
 
 })
 /**
- * 判断手机号是否为普通管理员
+ * 验证手机号是否为普通管理员
  */
 router.post('/checkPhone', async (req,res,next)=>{
     try{
@@ -72,8 +73,44 @@ router.post('/checkPhone', async (req,res,next)=>{
 /**
  * 验证验证码
  */
-router.post('/confrim', (req, res) => {
+router.post('/conform', (req, res) => {
+    try {
+        let {phone,password}=req.body
+        if(phone == req.phone && password == req.code){
+            res.json({
+                code:200,
+                msg:"验证通过"
+            })
+        }else{
+            res.json({
+                code:203,
+                msg:"验证不通过"
+            })
+        }
 
+
+    }catch(e){
+        next(e)
+    }
+})
+/**
+ * 设置新密码
+ * @type {Router|router|*}
+ */
+router.post('/setNewPass',async (req,res,next)=>{
+    try {
+        let {phone,password}=req.body
+        let admin = await userModel.findOne({phone:phone,level:0})
+        if(admin){
+            await userModel.updateOne({phone,level:0},{$set:{password}})
+            res.json({
+                code:200,
+                msg:"修改成功"
+            })
+        }
+    }catch(e){
+        next(e)
+    }
 })
 
 module.exports = router
