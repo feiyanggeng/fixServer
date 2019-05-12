@@ -35,6 +35,7 @@ router.post('/adminLogin', async (req, res, next) => {
     try {
         let {phone, password} = req.body
         if(phone === 'admin' && password === 'admin'){
+            req.session.userinfo = {name:'admin'}
             res.json({
                 code: 200,
                 data: {
