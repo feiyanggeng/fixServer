@@ -11,13 +11,15 @@ const token = "d71da22ef74b69708bda0ce4ace0e017"
 const appid = "0c1ef18e555f48148dd1cac1f9c32ebf"
 const templateid ="462575"
 
-router.get('/forget', (req, res) => {
+/**
+ * 获取验证码
+ */
+router.get('/getCode', (req, res) => {
     let {mobile} = req.query
     let param = ''
     for (let i = 0; i < 6; i++) {
         param += ''+parseInt(Math.random()*10)
     }
-    console.log(param)
     let postData={
         sid,
         token,
@@ -28,6 +30,7 @@ router.get('/forget', (req, res) => {
     }
     axios.post('https://open.ucpaas.com/ol/sms/sendsms', postData).then(response => {
         if (response.data.code === '000000') {
+            req.code = param
             res.json({
                 message: '发送成功',
                 code: response.data
@@ -39,6 +42,12 @@ router.get('/forget', (req, res) => {
             });
         }
     })
+
+})
+/**
+ * 验证验证码
+ */
+router.post('/confrim', (req, res) => {
 
 })
 
