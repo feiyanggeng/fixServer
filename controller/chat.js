@@ -6,7 +6,7 @@ const router  = express.Router()
 
 const repairModel = require('../model/repair')
 const repairTypeModel = require('../model/repairType')
-const userModel = require('../model/userModel')
+const userModel = require('../model/user')
 let {getStartEnd} = require('../utils/public')
 /**
  * 报修类型统计  按月 饼状图
