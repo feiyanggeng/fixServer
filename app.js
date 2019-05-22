@@ -32,7 +32,7 @@ app.use(session({
     store: new mongoStore({ mongooseConnection: dbConnection })
 }))
 
-app.use('/fix', indexRouter);
+app.use('/', indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
