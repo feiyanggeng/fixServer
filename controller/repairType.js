@@ -27,21 +27,14 @@ router.get('/getAll', async (req, res, next) => {
  */
 router.post('/add', async (req, res, next) => {
     try {
-        let {name,img} = req.body
-        let repairs=await repairTypeModel.findOne({name})
-        if(!repairs){
-            repairs = await repairTypeModel.create({name,img})
+        let {name,img,category} = req.body
+           let repairs = await repairTypeModel.create({name,img,category})
             res.json({
                 code :200,
                 msg  :"添加成功",
                 data:repairs
             })
-        }else{
-           res.json({
-               code:301,
-               msg:"分类已存在"
-           })
-        }
+
     } catch (e) {
         next(e)
     }
@@ -51,8 +44,8 @@ router.post('/add', async (req, res, next) => {
  */
 router.post('/update', async (req,res,next)=>{
     try {
-        let {_id, img, name} = req.body
-        await repairTypeModel.updateOne({_id: _id}, {$set: {img, name}})
+        let {_id, img, name,category} = req.body
+        await repairTypeModel.updateOne({_id: _id}, {$set: {img, name,category}})
         res.json({
             code: 200,
             msg: '修改成功'

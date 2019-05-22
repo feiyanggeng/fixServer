@@ -6,9 +6,10 @@ const router  = express.Router()
 
 const repairModel = require('../model/repair')
 const repairTypeModel = require('../model/repairType')
+const userModel = require('../model/user')
 let {getStartEnd} = require('../utils/public')
 /**
- * 维修类型统计  按月 饼状图
+ * 报修类型统计  按月 饼状图
  * @type {Router|router|*}
  */
 router.get('/getType',async(req,res,next) =>{
@@ -54,4 +55,21 @@ router.get('/getType',async(req,res,next) =>{
         next(e)
     }
 })
+/**
+ * 得到所有的维修人员
+ * @type {Router|router|*}
+ */
+router.get('/getRepair',async(req,res,next)=>{
+    try {
+        let data = await userModel.find({level:1})
+        res.json({
+            code:200,
+            msg:"获取维修人员成功",
+            data:data
+        })
+    }catch(e){
+        next(e)
+    }
+})
+
 module.exports = router
