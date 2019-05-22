@@ -164,7 +164,6 @@ router.get('/getRepair',checkSession, async (req,res,next) =>{
 
 /**
  * 添加管理员
- * @type {Router|router|*}
  */
 router.post('/addAdmin' ,checkSession, async (req,res,next) =>{
     try{

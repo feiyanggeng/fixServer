@@ -10,6 +10,7 @@
  */
 function checkSession(req, res, next) {
     let userInfo = req.session.userinfo
+    console.log(userInfo)
     if (userInfo) {
         next()
     } else {
