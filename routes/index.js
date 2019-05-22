@@ -11,6 +11,7 @@ const user = require('../controller/user')
 const maintain = require('../controller/maintain')
 const chat = require('../controller/chat')
 const {checkSession} = require('../utils/public')
+const store = require('../utils/store')
 
 /**
  * 获取七牛的token
@@ -24,6 +25,8 @@ router.get('/getToken', (req, res) => {
 })
 /* GET home page. */
 router.get('/', function(req, res, next) {
+    let {code} = req.query
+    store.setCode(code)
     res.sendFile(path.resolve(__dirname, './admin.html'))
 });
 router.use('/dd',ddAuth)        //调用dd方法接口

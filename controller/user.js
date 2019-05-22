@@ -7,6 +7,11 @@ const router = express.Router()
 
 const userModel = require('../model/user')
 const {checkSession} = require('../utils/public')
+const store = require('../utils/store')
+
+let ssosecret=1213
+let corpid=622
+
 
 /**
  * 钉钉平台登录
@@ -33,50 +38,82 @@ router.post('/ddLogin', async (req, res, next) => {
  */
 router.post('/adminLogin', async (req, res, next) => {
     try {
-        let {phone, password} = req.body
-        if(phone === 'admin' && password === 'admin'){
-            req.session.userinfo = {name:'admin'}
-            res.json({
-                code: 200,
-                data: {
-                    phone:'admin',
-                    level:-1
-                },
-                msg: '登录成功'
-            })
-        }else{
+            let {phone} = req.body
             let userInfo = await userModel.findOne({phone})
             if (userInfo) {
                 if (userInfo.level === 0) {
-                    //管理员
-                    if (password === userInfo.password) {
+                    //普通管理员
                         req.session.userinfo = userInfo
                         res.json({
                             code: 200,
                             data: userInfo,
                             msg: '登录成功'
                         })
-                    } else {
-                        res.json({
-                            code: 202,
-                            msg: '密码错误'
-                        })
-                    }
-
                 } else {
                     res.json({
-                        code: 203,
-                        msg: '身份错误'
+                        level:-1
                     })
                 }
-
+            }else{
+                res.json({
+                    msg:'不存在该用户'
+                })
             }
-        }
+
 
     } catch (e) {
         next(e)
     }
 })
+
+/**
+ * accessToken
+ */
+function getaccessToken(corpid,ssosecret) {
+    return new Promise((reslove, reject) => {
+        https.get(`https://oapi.dingtalk.com/sso/gettoken?corpid=${corpid}&corpsecret=${ssosecret}`, response => {
+            response.on('data', (d) => {
+                let data = JSON.parse(d.toString())
+                if (data.errcode === 0) {
+                    reslove(data.access_token)
+                } else {
+                    reject(data)
+                }
+            })
+        })
+    })
+}
+
+/**
+ * 身份信息
+ */
+function getuserMessage(access_token,code) {
+    return new Promise((reslove, reject) => {
+        https.get(`https://oapi.dingtalk.com/sso/getuserinfo?access_token=${access_token}&code=${code}`, response => {
+            response.on('data', (d) => {
+                let data = JSON.parse(d.toString())
+                if (data.errcode === 0) {
+                    reslove(data.user_info)
+                } else {
+                    reject(data)
+                }
+            })
+        })
+    })
+}
+
+router.get('/getMess', async (req,res,next)=>{
+    let code = store.getCode()
+    getaccessToken(corpid,ssosecret).then(access_token=>{
+        getuserMessage(access_token,code).then(user_info=>{
+          res.json({
+              code:200,
+              data:user_info
+          })
+        })
+    })
+})
+
 /**
  * 退出登录
  */
