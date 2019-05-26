@@ -9,8 +9,8 @@ const userModel = require('../model/user')
 const {checkSession} = require('../utils/public')
 const store = require('../utils/store')
 
-let ssosecret=1213
-let corpid=622
+let ssosecret='MPvMOg4gXl0xvDKuj7gODMxxzj1m_xWDuVeYZSLrH1oFUITp_Zxdge7TbBZnlPPq'
+let corpid='ding42ca1df6c2abb23435c2f4657eb6378f'
 
 
 /**
