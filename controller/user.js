@@ -94,7 +94,7 @@ function getuserMessage(access_token,code) {
             response.on('data', (d) => {
                 let data = JSON.parse(d.toString())
                 if (data.errcode === 0) {
-                    reslove(data.user_info)
+                    reslove(data)
                 } else {
                     reject(data)
                 }
