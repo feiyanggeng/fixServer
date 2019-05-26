@@ -3,6 +3,7 @@
  * 用户接口
  */
 const express = require('express')
+const https = require('https')
 const router = express.Router()
 
 const userModel = require('../model/user')
