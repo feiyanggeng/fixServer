@@ -44,7 +44,6 @@ router.post('/adminLogin', async (req, res, next) => {
             if (userInfo) {
                 if (userInfo.level === 0) {
                     //普通管理员
-                        req.session.userinfo = userInfo
                         res.json({
                             code: 200,
                             data: userInfo,
@@ -111,6 +110,7 @@ router.get('/getMess', async (req,res,next)=>{
               code:200,
               data:user_info
           })
+            req.session.userinfo = user_info.user_info
         })
     })
 })
