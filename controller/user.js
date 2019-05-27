@@ -3,6 +3,7 @@
  * 用户接口
  */
 const express = require('express')
+const https = require('https')
 const router = express.Router()
 
 const userModel = require('../model/user')
@@ -43,7 +44,6 @@ router.post('/adminLogin', async (req, res, next) => {
             if (userInfo) {
                 if (userInfo.level === 0) {
                     //普通管理员
-                        req.session.userinfo = userInfo
                         res.json({
                             code: 200,
                             data: userInfo,
@@ -93,7 +93,7 @@ function getuserMessage(access_token,code) {
             response.on('data', (d) => {
                 let data = JSON.parse(d.toString())
                 if (data.errcode === 0) {
-                    reslove(data.user_info)
+                    reslove(data)
                 } else {
                     reject(data)
                 }
@@ -106,10 +106,12 @@ router.get('/getMess', async (req,res,next)=>{
     let code = store.getCode()
     getaccessToken(corpid,ssosecret).then(access_token=>{
         getuserMessage(access_token,code).then(user_info=>{
+            req.session.userinfo = user_info.user_info
           res.json({
               code:200,
               data:user_info
           })
+
         })
     })
 })

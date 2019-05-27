@@ -5,6 +5,7 @@ const express = require('express')
 const router  = express.Router()
 
 const repairModel = require('../model/repair')
+const maintainModel = require('../model/maintain')
 const repairTypeModel = require('../model/repairType')
 const userModel = require('../model/user')
 let {getStartEnd} = require('../utils/public')
@@ -55,6 +56,32 @@ router.get('/getType',async(req,res,next) =>{
         next(e)
     }
 })
+
+/**
+ * 维修人员 完成单量对比 按月  柱状图
+ */
+router.get('/getRepairMatch',async(req,res,next)=>{
+    try{
+        let {month} =req.query
+        let date = getStartEnd(month)
+        let repairPeo=[]
+        if(month == 0){
+            repairPeo = await maintainModel.aggregate([
+                {$match: {status: {$gte: 3}}},
+                {$group: {_id: "$user",count: {$sum: 1}}}])
+        }else{
+            repairPeo = await maintainModel.aggregate([
+                {$match: {status: {$gte: 3}}},
+                {$match: {createdTime: {$gt: date.start, $lte: date.end }}},
+                {$group: {_id: "$user",count: {$sum: 1}}}])
+        }
+
+
+        }catch(e){
+        next(e)
+        }
+})
+
 /**
  * 得到所有的维修人员
  * @type {Router|router|*}
