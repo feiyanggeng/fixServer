@@ -106,11 +106,12 @@ router.get('/getMess', async (req,res,next)=>{
     let code = store.getCode()
     getaccessToken(corpid,ssosecret).then(access_token=>{
         getuserMessage(access_token,code).then(user_info=>{
+            req.session.userinfo = user_info.user_info
           res.json({
               code:200,
               data:user_info
           })
-            req.session.userinfo = user_info.user_info
+
         })
     })
 })
