@@ -246,8 +246,8 @@ router.post('/updateAdmin',checkSession, async (req,res,next) =>{
  */
 router.post('/delAdmin',checkSession, async (req,res,next) =>{
     try {
-        let {_id}=req.body
-        await userModel.deleteOne({_id:_id})
+        let {phone}=req.body
+        await userModel.deleteOne({phone})
         res.json({
             code:200,
             msg:"删除成功"
