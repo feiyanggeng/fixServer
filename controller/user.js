@@ -244,10 +244,10 @@ router.post('/updateAdmin',checkSession, async (req,res,next) =>{
  * 删除管理员
  * @type {Router|router|*}
  */
-router.post('/delAdmin', async (req,res,next) =>{
+router.post('/delAdmin',checkSession, async (req,res,next) =>{
     try {
-        let {phone}=req.body
-        await userModel.deleteOne({phone})
+        let {_id}=req.body
+        await userModel.deleteOne({_id:_id})
         res.json({
             code:200,
             msg:"删除成功"
