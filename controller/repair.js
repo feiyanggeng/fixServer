@@ -141,8 +141,8 @@ router.get('/maintainDetail', async (req, res, next) => {
  * 删除type为空的数据
  */
 router.get('/delRepairNull', async (req, res, next) => {
-    await repairModel.deleteMany({type: ''})
-    await maintainModel.deleteMany({user: ''})
+    await repairModel.deleteMany({type: null})
+    await maintainModel.deleteMany({user: null})
     res.json({
         code: 200,
         msg: '数据清除完成'
