@@ -244,7 +244,7 @@ router.post('/updateAdmin',checkSession, async (req,res,next) =>{
  * 删除管理员
  * @type {Router|router|*}
  */
-router.post('/delAdmin',checkSession, async (req,res,next) =>{
+router.post('/delAdmin', async (req,res,next) =>{
     try {
         let {phone}=req.body
         await userModel.deleteOne({phone})
