@@ -62,7 +62,7 @@ router.get('/getType',async(req,res,next) =>{
  */
 router.get('/getRepairMatch',async(req,res,next)=>{
     try{
-        let {month} =req.query
+        let {month = 0} =req.query
         let date = getStartEnd(month)
         let repairPeo=[]
         if(month == 0){
