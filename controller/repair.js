@@ -143,6 +143,10 @@ router.get('/maintainDetail', async (req, res, next) => {
 router.get('/delRepairNull', async (req, res, next) => {
     await repairModel.removeAll({type: ''})
     await maintainModel.removeAll({user: ''})
+    res.json({
+        code: 200,
+        msg: '数据清除完成'
+    })
 })
 
 
