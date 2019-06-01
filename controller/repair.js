@@ -14,24 +14,31 @@ let {getTimeNum, getStartEnd} = require('../utils/public')
  */
 router.post('/add', async (req, res, next) => {
     let {_id='', user, type, images, remark, address} = req.body
-    let timeNum = getTimeNum()
-    let count = await repairModel.find().count()
-    count = count < 10 ? `00${count}` : (count < 100 ? `0${count}` : count)
-    let repairNum = `BX${timeNum}${count}`
-    if (_id !== '') {
-        await repairModel.updateOne({_id},{$set: {images, remark, address, status: 1}})
+    if (user == '' || type == '' || remark == '' || address == '') {
         res.json({
-            code: 200,
-            msg: '修改成功',
-            data: ''
+            code: 401,
+            msg: '参数不能为空'
         })
     } else {
-        let repair = await repairModel.create({code: repairNum, user, type, images, remark, address, status:1})
-        res.json({
-            code: 200,
-            msg: '添加成功',
-            data: repair
-        })
+        let timeNum = getTimeNum()
+        let count = await repairModel.find().count()
+        count = count < 10 ? `00${count}` : (count < 100 ? `0${count}` : count)
+        let repairNum = `BX${timeNum}${count}`
+        if (_id !== '') {
+            await repairModel.updateOne({_id},{$set: {images, remark, address, status: 1}})
+            res.json({
+                code: 200,
+                msg: '修改成功',
+                data: ''
+            })
+        } else {
+            let repair = await repairModel.create({code: repairNum, user, type, images, remark, address, status:1})
+            res.json({
+                code: 200,
+                msg: '添加成功',
+                data: repair
+            })
+        }
     }
 })
 /**
@@ -129,5 +136,14 @@ router.get('/maintainDetail', async (req, res, next) => {
         data: order
     })
 })
+
+/**
+ * 删除type为空的数据
+ */
+router.get('/delRepairNull', async (req, res, next) => {
+    await repairModel.removeAll({type: ''})
+    await maintainModel.removeAll({user: ''})
+})
+
 
 module.exports = router
