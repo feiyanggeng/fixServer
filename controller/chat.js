@@ -75,28 +75,15 @@ router.get('/getRepairMatch',async(req,res,next)=>{
                 {$match: {createdTime: {$gt: date.start, $lte: date.end }}},
                 {$group: {_id: "$user",count: {$sum: 1}}}])
         }
-
+        res.json({
+            code: 200,
+            msg: '维修员完成量统计',
+            data: repairPeo
+        })
 
         }catch(e){
         next(e)
         }
-})
-
-/**
- * 得到所有的维修人员
- * @type {Router|router|*}
- */
-router.get('/getRepair',async(req,res,next)=>{
-    try {
-        let data = await userModel.find({level:1})
-        res.json({
-            code:200,
-            msg:"获取维修人员成功",
-            data:data
-        })
-    }catch(e){
-        next(e)
-    }
 })
 
 module.exports = router
