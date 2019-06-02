@@ -90,13 +90,14 @@ router.get('/getRepairMatch',async(req,res,next)=>{
                 peoData.push(repairPeo[index].count)
             }
         }
+        repair = repair.map(item => {
+            return item.name
+        })
         res.json({
             code: 200,
             msg: '维修员完成量统计',
             sumData: peoData,
-            userData: repair.map(item => {
-                return item.name
-            })
+            userData: repair
         })
 
         }catch(e){
