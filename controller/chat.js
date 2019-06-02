@@ -65,6 +65,7 @@ router.get('/getRepairMatch',async(req,res,next)=>{
         let {month = 0} =req.query
         let date = getStartEnd(month)
         let repairPeo=[]
+        let repair = await userModel.find({level:1})
         if(month == 0){
             repairPeo = await maintainModel.aggregate([
                 {$match: {status: {$gte: 3}}},
@@ -75,10 +76,27 @@ router.get('/getRepairMatch',async(req,res,next)=>{
                 {$match: {createdTime: {$gt: date.start, $lte: date.end }}},
                 {$group: {_id: "$user",count: {$sum: 1}}}])
         }
+        let peoData = []
+        for (let i=0; i < repair.length; i++) {
+            let index = -1
+            for (let j = 0; j < repairPeo.length; i++) {
+                if (repair[i]._id.toString() == repairPeo[j].user.toString()) {
+                    index = j
+                }
+            }
+            if (index === -1) {
+                peoData.push(0)
+            } else {
+                peoData.push(repairPeo[index].count)
+            }
+        }
         res.json({
             code: 200,
             msg: '维修员完成量统计',
-            data: repairPeo
+            sumData: peoData,
+            userData: repair.map(item => {
+                return item.name
+            })
         })
 
         }catch(e){
