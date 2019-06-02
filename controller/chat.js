@@ -63,6 +63,7 @@ router.get('/getType',async(req,res,next) =>{
 router.get('/getRepairMatch',async(req,res,next)=>{
     try{
         let {month = 0} =req.query
+        month = parseInt(month)
         let date = getStartEnd(month)
         let repairPeo=[]
         let repair = await userModel.find({level:1})
