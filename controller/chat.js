@@ -107,4 +107,53 @@ router.get('/getRepairMatch',async(req,res,next)=>{
         }
 })
 
+/**
+ * 维修人员 月满意度统计
+ */
+router.get('/getHappy',async(req,res,next)=>{
+    try{
+        let {month = 0} =req.query
+        month = parseInt(month)
+        let date = getStartEnd(month)
+        let repairPeo=[]
+        let repair = await userModel.find({level:1})
+        if(month == 0){
+            repairPeo = await maintainModel.aggregate([
+                {$match: {status: {$gte: 4}}},
+                {$group: {_id: "$user",count: {$avg: "$level"}}}])
+        }else{
+            repairPeo = await maintainModel.aggregate([
+                {$match: {status: {$gte: 4}}},
+                {$match: {createdTime: {$gt: date.start, $lte: date.end }}},
+                {$group: {_id: "$user",count: {$avg: "$level"}}}])
+        }
+        let peoData = []
+        let index
+        for (let i = 0; i < repair.length; i++) {
+            index = -1
+            for (let j = 0; j < repairPeo.length; j++) {
+                if (repair[i]._id.toString() == repairPeo[j]._id.toString()) {
+                    index = j
+                }
+            }
+            if (index === -1) {
+                peoData.push(0)
+            } else {
+                peoData.push(repairPeo[index].count)
+            }
+        }
+        repair = repair.map(item => {
+            return item.name
+        })
+        res.json({
+            code: 200,
+            msg: '维修员完成量统计',
+            sumData: peoData,
+            userData: repair
+        })
+    }catch(e){
+        next(e)
+    }
+})
+
 module.exports = router
