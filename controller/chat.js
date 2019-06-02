@@ -77,9 +77,10 @@ router.get('/getRepairMatch',async(req,res,next)=>{
                 {$group: {_id: "$user",count: {$sum: 1}}}])
         }
         let peoData = []
+        let index
         for (let i=0; i < repair.length; i++) {
-            let index = -1
-            for (let j = 0; j < repairPeo.length; i++) {
+            index = -1
+            for (let j = 0; j < repairPeo.length; j++) {
                 if (repair[i]._id.toString() == repairPeo[j].user.toString()) {
                     index = j
                 }
