@@ -81,7 +81,7 @@ router.get('/getRepairMatch',async(req,res,next)=>{
         for (let i = 0; i < repair.length; i++) {
             index = -1
             for (let j = 0; j < repairPeo.length; j++) {
-                if (repair[i]._id.toString() == repairPeo[j].user.toString()) {
+                if (repair[i]._id.toString() == repairPeo[j]._id.toString()) {
                     index = j
                 }
             }
