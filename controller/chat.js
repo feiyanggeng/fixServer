@@ -78,22 +78,22 @@ router.get('/getRepairMatch',async(req,res,next)=>{
         }
         let peoData = []
         let index
-        for (let i=0; i < repair.length; i++) {
-            index = -1
-            for (let j = 0; j < repairPeo.length; j++) {
-                if (repair[i]._id.toString() == repairPeo[j].user.toString()) {
-                    index = j
-                }
-            }
-            if (index === -1) {
-                peoData.push(0)
-            } else {
-                peoData.push(repairPeo[index].count)
-            }
-        }
-        repair = repair.map(item => {
-            return item.name
-        })
+        // for (let i = 0; i < repair.length; i++) {
+        //     index = -1
+        //     for (let j = 0; j < repairPeo.length; j++) {
+        //         if (repair[i]._id.toString() == repairPeo[j].user.toString()) {
+        //             index = j
+        //         }
+        //     }
+        //     if (index === -1) {
+        //         peoData.push(0)
+        //     } else {
+        //         peoData.push(repairPeo[index].count)
+        //     }
+        // }
+        // repair = repair.map(item => {
+        //     return item.name
+        // })
         res.json({
             code: 200,
             msg: '维修员完成量统计',
